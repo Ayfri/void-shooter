@@ -1,4 +1,5 @@
-import {events, isPressed, Sprite, Vector2} from 'pixi-extended';
+import {events, isPressed, Rectangle, Sprite, Vector2} from 'pixi-extended';
+import {Game} from '../Game';
 import {app, keys} from '../index';
 import {isOnScreen} from '../utils';
 import {Bullet, BulletMovementType} from './Bullet';
@@ -33,11 +34,16 @@ export class Player extends Sprite {
 			this.bullets.push(bullet);
 		}
 
+		const position = new Vector2(...this.position.xy.slice() as [number, number]);
+		position.add(this.velocity);
+		if (position.x + this.width / 2 > window.innerWidth || position.x - this.width / 2 < 0) this.velocity.x = 0;
+		if (position.y + this.height / 2 > window.innerHeight || position.y - this.height / 2 < 0) this.velocity.y = 0;
+
 		this.position.add(this.velocity);
 		this.velocity.reset();
 
 		this.bullets.forEach((b) => {
-			if(!isOnScreen(b)) {
+			if (!isOnScreen(b)) {
 				b.destroy();
 				this.bullets.splice(this.bullets.indexOf(b), 1);
 				return;
