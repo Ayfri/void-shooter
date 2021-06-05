@@ -1,14 +1,15 @@
-import {events, isPressed, Rectangle, Sprite, Vector2} from 'pixi-extended';
-import {Game} from '../Game';
+import {isPressed, Sprite, Vector2} from 'pixi-extended';
 import {app, keys} from '../index';
 import {isOnScreen} from '../utils';
 import {Bullet, BulletMovementType} from './Bullet';
 
 
 export class Player extends Sprite {
-	public speed = 10;
+	public speed = 8;
 	public velocity = Vector2.zero;
 	public bullets: Bullet[] = [];
+	public bulletCooldown = 10;
+	private bulletCooldownTimer = this.bulletCooldown;
 
 	public constructor() {
 		super('player');
@@ -22,9 +23,9 @@ export class Player extends Sprite {
 		if (isPressed(keys.down)) this.velocity.y = this.speed;
 		if (isPressed(keys.left)) this.velocity.x = -this.speed;
 		if (isPressed(keys.right)) this.velocity.x = this.speed;
-		if (isPressed(keys.space)) {
+		if (isPressed(keys.space) && this.bulletCooldownTimer <= 0) {
 			const bullet: Bullet = new Bullet({
-				initialSpeed: 20,
+				initialSpeed: 12,
 				movementType: BulletMovementType.BASIC,
 				from: 'enemy',
 			});
@@ -32,7 +33,9 @@ export class Player extends Sprite {
 			bullet.addToApplication(app);
 
 			this.bullets.push(bullet);
+			this.bulletCooldownTimer = this.bulletCooldown;
 		}
+		this.bulletCooldownTimer--;
 
 		const position = new Vector2(...this.position.xy.slice() as [number, number]);
 		position.add(this.velocity);
