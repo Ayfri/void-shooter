@@ -14,12 +14,14 @@ export const keys = {
 	up: locale.includes('fr') ? 'z' : 'w',
 	down: 's',
 	left: locale.includes('fr') ? 'q' : 'a',
-	right: 'd'
+	right: 'd',
+	space: ' '
 };
 
 async function setup() {
 	await loadTextures({
-		player: './assets/sprites/player.png'
+		player: './assets/sprites/player.png',
+		bullet1: './assets/sprites/bullet1.png',
 	});
 
 	game = new Game(app);
