@@ -1,12 +1,19 @@
 {
-  "compilerOptions": {
-    "declaration": true,
-    "esModuleInterop": true,
-    "lib": ["ESNext", "dom"],
-    "module": "commonjs",
-    "noImplicitAny": true,
-    "sourceMap": true,
-    "strict": true,
-    "target": "ESNext"
-  }
+	"compilerOptions": {
+		"declaration": true,
+		"esModuleInterop": true,
+		"lib": ["ESNext", "dom"],
+		"module": "commonjs",
+		"noImplicitAny": true,
+		"noImplicitOverride": true,
+		"baseUrl": ".",
+		"paths": {
+			"mini-signals": [
+				"node_modules/resource-loader/typings/mini-signals.d.ts"
+			]
+		},
+		"sourceMap": true,
+		"strict": true,
+		"target": "ESNext"
+	}
 }
