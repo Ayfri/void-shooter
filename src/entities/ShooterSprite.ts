@@ -9,6 +9,10 @@ export abstract class ShooterSprite extends Sprite {
 	public bulletCooldown = 10;
 	protected bulletCooldownTimer = this.bulletCooldown;
 
+	public get destroyed(): boolean {
+		return this._destroyed;
+	}
+
 	public abstract update(): void;
 
 	public shoot(options: BulletOptions) {

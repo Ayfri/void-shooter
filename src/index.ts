@@ -15,7 +15,8 @@ export const keys = {
 	down: 's',
 	left: locale.includes('fr') ? 'q' : 'a',
 	right: 'd',
-	space: ' '
+	space: ' ',
+	spawnEnemy: 'k'
 };
 
 async function setup() {

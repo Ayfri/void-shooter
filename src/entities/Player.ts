@@ -1,5 +1,5 @@
 import {isPressed, Vector2} from 'pixi-extended';
-import {keys} from '../index';
+import {game, keys} from '../index';
 import {isOnScreen} from '../utils';
 import {BulletMovementType} from './Bullet';
 import {ShooterSprite} from './ShooterSprite';
@@ -14,6 +14,8 @@ export class Player extends ShooterSprite {
 	}
 
 	public update() {
+		if (this.destroyed) return;
+
 		if (isPressed(keys.up)) this.velocity.y = -this.speed;
 		if (isPressed(keys.down)) this.velocity.y = this.speed;
 		if (isPressed(keys.left)) this.velocity.x = -this.speed;
@@ -22,7 +24,7 @@ export class Player extends ShooterSprite {
 			this.shoot({
 				target: 'enemy',
 				movementType: BulletMovementType.BASIC,
-				initialSpeed: 12
+				initialSpeed: 12,
 			});
 			this.bulletCooldownTimer = this.bulletCooldown;
 		}
@@ -41,6 +43,14 @@ export class Player extends ShooterSprite {
 				this.removeBullet(b);
 				return;
 			}
+
+			game.enemies.forEach(e => {
+				if (b.destroyed || e.destroyed) return;
+				if (b.hitBox.collidesWith(e.hitBox)) {
+					this.removeBullet(b);
+					e.hit();
+				}
+			});
 
 			b.update();
 		});
