@@ -38,8 +38,7 @@ export class Player extends ShooterSprite {
 
 		this.bullets.forEach((b) => {
 			if (!isOnScreen(b)) {
-				b.destroy();
-				this.bullets.splice(this.bullets.indexOf(b), 1);
+				this.removeBullet(b);
 				return;
 			}
 
