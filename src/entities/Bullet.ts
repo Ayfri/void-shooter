@@ -15,12 +15,13 @@ export interface BulletOptions {
 }
 
 export class Bullet extends Sprite {
-	private readonly movementType: BulletMovementType;
 	public readonly target: BulletTarget;
 	public speed: number;
+	private readonly movementType: BulletMovementType;
 
 	public constructor(options: BulletOptions) {
 		super('bullet1');
+
 		this.target = options.target;
 		this.speed = options.initialSpeed;
 		this.movementType = options.movementType;
@@ -30,7 +31,15 @@ export class Bullet extends Sprite {
 	public update() {
 		switch (this.movementType) {
 			case BulletMovementType.BASIC:
-				this.position.y += -this.speed;
+				switch (this.target) {
+					case 'enemy':
+						this.position.y += -this.speed;
+						break;
+
+					case 'player':
+						this.position.y += this.speed;
+						break;
+				}
 		}
 	}
 }
