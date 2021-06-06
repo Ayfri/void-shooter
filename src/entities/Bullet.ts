@@ -10,7 +10,7 @@ type BulletTarget = 'player' | 'enemy';
 
 export interface BulletOptions {
 	movementType: BulletMovementType,
-	from: BulletTarget,
+	target: BulletTarget,
 	initialSpeed: number
 }
 
@@ -21,7 +21,7 @@ export class Bullet extends Sprite {
 
 	public constructor(options: BulletOptions) {
 		super('bullet1');
-		this.target = options.from;
+		this.target = options.target;
 		this.speed = options.initialSpeed;
 		this.movementType = options.movementType;
 		this.anchor.set(0.5, 0.5);

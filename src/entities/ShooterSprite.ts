@@ -1,5 +1,6 @@
 import {Sprite, Vector2} from 'pixi-extended';
-import {Bullet} from './Bullet';
+import {app} from '../index';
+import {Bullet, BulletMovementType, BulletOptions} from './Bullet';
 
 export abstract class ShooterSprite extends Sprite {
 	public speed = 8;
@@ -9,5 +10,11 @@ export abstract class ShooterSprite extends Sprite {
 	protected bulletCooldownTimer = this.bulletCooldown;
 
 	public abstract update(): void;
-	public abstract shoot(): void;
+	public shoot(options: BulletOptions) {
+		const bullet: Bullet = new Bullet(options);
+		bullet.position.copyFrom(this);
+		bullet.addToApplication(app);
+
+		this.bullets.push(bullet);
+	};
 }
