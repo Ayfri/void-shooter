@@ -20,6 +20,7 @@ export class Player extends ShooterSprite {
 		if (isPressed(keys.down)) this.velocity.y = this.speed;
 		if (isPressed(keys.left)) this.velocity.x = -this.speed;
 		if (isPressed(keys.right)) this.velocity.x = this.speed;
+
 		if (isPressed(keys.space) && this.bulletCooldownTimer <= 0) {
 			this.shoot({
 				target: 'enemy',
@@ -30,10 +31,7 @@ export class Player extends ShooterSprite {
 		}
 		this.bulletCooldownTimer--;
 
-		const position = new Vector2(...this.position.xy.slice() as [number, number]);
-		position.add(this.velocity);
-		if (position.x + this.width / 2 > window.innerWidth || position.x - this.width / 2 < 0) this.velocity.x = 0;
-		if (position.y + this.height / 2 > window.innerHeight || position.y - this.height / 2 < 0) this.velocity.y = 0;
+		this.checkMovement();
 
 		this.position.add(this.velocity);
 		this.velocity.reset();
@@ -54,5 +52,12 @@ export class Player extends ShooterSprite {
 
 			b.update();
 		});
+	}
+
+	private checkMovement(): void {
+		const position = new Vector2(...this.position.xy.slice() as [number, number]);
+		position.add(this.velocity);
+		if (position.x + this.width / 2 > window.innerWidth || position.x - this.width / 2 < 0) this.velocity.x = 0;
+		if (position.y + this.height / 2 > window.innerHeight || position.y - this.height / 2 < 0) this.velocity.y = 0;
 	}
 }

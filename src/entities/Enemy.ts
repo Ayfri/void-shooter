@@ -31,7 +31,7 @@ export class Enemy extends ShooterSprite {
 			this.destroy();
 			this.bullets.forEach(b => b.destroy());
 			this.bullets = [];
-			game.enemies.slice(game.enemies.indexOf(this), 1);
+			game.enemies.splice(game.enemies.indexOf(this), 1);
 		}
 	}
 
