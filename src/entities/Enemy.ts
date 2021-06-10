@@ -1,4 +1,4 @@
-import {Color, getColoredTexture, Vector2} from 'pixi-extended';
+import {Color, getColoredTexture, randomInt, Vector2} from 'pixi-extended';
 import {game} from '../index';
 import {isOnScreen} from '../utils';
 import {BulletMovementType} from './Bullet';
@@ -22,7 +22,7 @@ export class Enemy extends ShooterSprite {
 
 		this.health = options.health;
 		this.position.copyFrom(options.position);
-		this.bulletCooldown = 100;
+		this.bulletCooldown = randomInt(150, 400);
 	}
 
 	public hit() {
@@ -42,7 +42,7 @@ export class Enemy extends ShooterSprite {
 		if (this.bulletCooldownTimer <= 0) {
 			this.bulletCooldownTimer = this.bulletCooldown;
 			this.shoot({
-				initialSpeed: 10,
+				initialSpeed: 9,
 				movementType: BulletMovementType.BASIC,
 				target: 'player',
 			});
