@@ -1,5 +1,6 @@
 import {Color, getColoredTexture, Vector2} from 'pixi-extended';
 import {game} from '../index';
+import {isOnScreen} from '../utils';
 import {BulletMovementType} from './Bullet';
 import {ShooterSprite} from './ShooterSprite';
 
@@ -50,6 +51,11 @@ export class Enemy extends ShooterSprite {
 		this.bulletCooldownTimer--;
 
 		this.bullets.forEach((b) => {
+			if (!isOnScreen(b)) {
+				this.removeBullet(b);
+				return;
+			}
+
 			if (b.hitBox.collidesWith(game.player.hitBox)) {
 				this.removeBullet(b);
 				console.log('player hit');
