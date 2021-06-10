@@ -1,4 +1,5 @@
-import {PIXI, loadTexture, loadedTexturesNames, loadTextures} from 'pixi-extended';
+import * as PIXI_Extended from 'pixi-extended';
+import {loadTextures, PIXI} from 'pixi-extended';
 import {Game} from './Game';
 
 export const app = new PIXI.Application({
@@ -16,7 +17,7 @@ export const keys = {
 	left: locale.includes('fr') ? 'q' : 'a',
 	right: 'd',
 	space: ' ',
-	spawnEnemy: 'k'
+	spawnEnemy: 'k',
 };
 
 async function setup() {
@@ -26,6 +27,10 @@ async function setup() {
 	});
 
 	game = new Game(app);
+	window.app = app;
+	window.game = game;
+	window.PIXI = PIXI;
+	window.PIXI_Extended = PIXI_Extended;
 
 	document.body.appendChild(app.view);
 }
