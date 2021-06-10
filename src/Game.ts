@@ -1,4 +1,4 @@
-import {EventEmitter, isPressed, PIXI, randomInt, Vector2} from 'pixi-extended';
+import {EventEmitter, isPressed, PIXI, randomFloat, randomInt, Vector2} from 'pixi-extended';
 import {Enemy} from './entities/Enemy';
 import {Player} from './entities/Player';
 import {keys} from './index';
@@ -32,7 +32,7 @@ export class Game extends EventEmitter<GameEvents> {
 		if (isPressed(keys.spawnEnemy)) {
 			const enemy = new Enemy({
 				health: randomInt(5, 12),
-				position: new Vector2(randomInt(0, window.innerWidth), window.innerHeight / 8),
+				position: new Vector2(randomInt(0, window.innerWidth), randomFloat(10, window.innerWidth / 5)),
 			});
 
 			this.enemies.push(enemy);
