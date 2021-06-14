@@ -55,7 +55,7 @@ export class Player extends ShooterSprite {
 	}
 
 	private checkMovement(): void {
-		const position = new Vector2(...this.position.xy.slice() as [number, number]);
+		const position = this.position.deepClone();
 		position.add(this.velocity);
 		if (position.x + this.width / 2 > window.innerWidth || position.x - this.width / 2 < 0) this.velocity.x = 0;
 		if (position.y + this.height / 2 > window.innerHeight || position.y - this.height / 2 < 0) this.velocity.y = 0;
