@@ -1,6 +1,6 @@
-import {Color, getColoredTexture, randomInt, Vector2} from 'pixi-extended';
+import {Color, randomInt, Vector2} from 'pixi-extended';
 import {game} from '../index';
-import {isOnScreen} from '../utils';
+import {getColoredTexture, isOnScreen} from '../utils';
 import {BulletMovementType} from './Bullet';
 import {ShooterSprite} from './ShooterSprite';
 
@@ -13,10 +13,10 @@ export class Enemy extends ShooterSprite {
 	public health: number = 0;
 
 	public constructor(options: EnemyOptions) {
-		super(getColoredTexture({
+		super(getColoredTexture(game.app, {
 			color: Color.random(),
-			height: 500,
-			width: 200,
+			height: 75,
+			width: 50,
 		}));
 		this.anchor.set(0.5, 0.5);
 
