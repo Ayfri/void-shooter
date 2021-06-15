@@ -28,10 +28,6 @@ export class Bullet extends Sprite {
 		this.anchor.set(0.5, 0.5);
 	}
 
-	public get destroyed(): boolean {
-		return this._destroyed;
-	}
-
 	public update() {
 		if (this.destroyed) return;
 
