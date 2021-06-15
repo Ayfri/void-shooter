@@ -1,7 +1,7 @@
-import {isPressed, Vector2} from 'pixi-extended';
+import {isPressed} from 'pixi-extended';
 import {game, keys} from '../index';
 import {isOnScreen} from '../utils';
-import {BulletMovementType} from './Bullet';
+import {BulletMovementType, BulletTarget} from './Bullet';
 import {ShooterSprite} from './ShooterSprite';
 
 
@@ -23,7 +23,7 @@ export class Player extends ShooterSprite {
 
 		if (isPressed(keys.space) && this.bulletCooldownTimer <= 0) {
 			this.shoot({
-				target: 'enemy',
+				target: BulletTarget.ENEMY,
 				movementType: BulletMovementType.BASIC,
 				initialSpeed: 12,
 			});

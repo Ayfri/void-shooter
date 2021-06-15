@@ -6,7 +6,10 @@ export enum BulletMovementType {
 	RANDOM
 }
 
-type BulletTarget = 'player' | 'enemy';
+export enum BulletTarget {
+	PLAYER,
+	ENEMY
+}
 
 export interface BulletOptions {
 	movementType: BulletMovementType,
@@ -34,11 +37,11 @@ export class Bullet extends Sprite {
 		switch (this.movementType) {
 			case BulletMovementType.BASIC:
 				switch (this.target) {
-					case 'enemy':
+					case BulletTarget.ENEMY:
 						this.position.y += -this.speed;
 						break;
 
-					case 'player':
+					case BulletTarget.PLAYER:
 						this.position.y += this.speed;
 						break;
 				}

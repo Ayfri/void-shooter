@@ -1,7 +1,7 @@
 import {Color, getColoredTexture, randomInt, Vector2} from 'pixi-extended';
 import {game} from '../index';
 import {isOnScreen} from '../utils';
-import {BulletMovementType} from './Bullet';
+import {BulletMovementType, BulletTarget} from './Bullet';
 import {ShooterSprite} from './ShooterSprite';
 
 export interface EnemyOptions {
@@ -44,7 +44,7 @@ export class Enemy extends ShooterSprite {
 			this.shoot({
 				initialSpeed: 9,
 				movementType: BulletMovementType.BASIC,
-				target: 'player',
+				target: BulletTarget.PLAYER,
 			});
 		}
 
