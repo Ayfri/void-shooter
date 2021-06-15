@@ -1,4 +1,5 @@
 import {Color, EventEmitter, FPSCounter, isPressed, PIXI, randomFloat, randomInt, Text, Vector2} from 'pixi-extended';
+import {PowerUpType} from './data/PowerUp';
 import {Enemy} from './entities/Enemy';
 import {Player} from './entities/Player';
 import {keys} from './index';
@@ -23,7 +24,7 @@ export class Game extends EventEmitter<GameEvents> {
 		fpsCounter.zIndex = 10000;
 
 		this.debug = new Text({
-			text: "a"
+			text: ''
 		});
 		this.debug.color = Color.WHITE;
 		this.debug.position.set(window.innerWidth / 20, window.innerHeight / 10 + 50)
@@ -43,7 +44,15 @@ export class Game extends EventEmitter<GameEvents> {
 	public update() {
 		this.player.update();
 		this.app.stage.sortChildren();
-		this.debug.text = this.app.stage.children.length.toString();
+		this.debug.text =
+			`
+${this.app.stage.children.length.toString()}
+Health : ${this.player.health}
+Speed : ${this.player.speed + this.player.getValueForPowerUp(PowerUpType.SPEED)}
+Bullet damage : ${this.player.bulletDamage}
+Bullet count : ${1 + this.player.getValueForPowerUp(PowerUpType.BULLET_NUMBER)}
+Bullet speed : ${8 + this.player.getValueForPowerUp(PowerUpType.BULLET_SPEED)}
+`;
 		this.enemies.forEach(e => e.update());
 
 		if (isPressed(keys.spawnEnemy)) {

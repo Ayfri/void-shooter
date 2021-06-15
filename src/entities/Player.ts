@@ -28,6 +28,10 @@ export class Player extends ShooterSprite {
 		this._health = health >= 0 ? health : 0;
 	}
 
+	public get bulletDamage(): number {
+		return 1 + this.getValueForPowerUp(PowerUpType.BULLET_DAMAGE);
+	}
+
 	public getValueForPowerUp(type: PowerUpType) {
 		const powerUps = this.powerUps.filter(p => p.type === type);
 		return powerUps.reduce((previous, current) => {
