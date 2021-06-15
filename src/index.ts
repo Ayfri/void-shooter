@@ -36,6 +36,6 @@ async function setup() {
 }
 
 setup().then(() => {
-	console.log('Game launched !');
 	PIXI.Ticker.shared.add(() => game.emit('update'), undefined, PIXI.UPDATE_PRIORITY.LOW);
+	console.log('Game launched !');
 });

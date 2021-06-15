@@ -14,7 +14,7 @@ export class Enemy extends ShooterSprite {
 
 	public constructor(options: EnemyOptions) {
 		super(getColoredTexture(game.app, {
-			color: new Color(Math.random() * 256, Math.random() * 256, Math.random() * 256),
+			color: Color.random(),
 			height: 75,
 			width: 50,
 		}));

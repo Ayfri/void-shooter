@@ -42,9 +42,11 @@ export class Player extends ShooterSprite {
 				return;
 			}
 
+			const hitBox = b.hitBox;
+
 			game.enemies.forEach(e => {
 				if (b.destroyed || e.destroyed) return;
-				if (b.hitBox.collidesWith(e.hitBox)) {
+				if (hitBox.collidesWith(e.hitBox)) {
 					this.removeBullet(b);
 					e.hit();
 				}
