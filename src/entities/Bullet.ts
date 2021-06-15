@@ -12,22 +12,25 @@ export enum BulletTarget {
 }
 
 export interface BulletOptions {
-	movementType: BulletMovementType,
-	target: BulletTarget,
-	initialSpeed: number
+	damage?: number;
+	initialSpeed: number;
+	movementType: BulletMovementType;
+	target: BulletTarget;
 }
 
 export class Bullet extends Sprite {
 	public readonly target: BulletTarget;
+	public damage: number;
 	public speed: number;
 	private readonly movementType: BulletMovementType;
 
 	public constructor(options: BulletOptions) {
 		super('bullet1');
 
-		this.target = options.target;
-		this.speed = options.initialSpeed;
 		this.movementType = options.movementType;
+		this.damage = options.damage ?? 1;
+		this.speed = options.initialSpeed;
+		this.target = options.target;
 		this.anchor.set(0.5, 0.5);
 	}
 

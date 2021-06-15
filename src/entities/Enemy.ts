@@ -1,4 +1,5 @@
-import {Color, getColoredTexture, randomInt, Vector2} from 'pixi-extended';
+import {Color, getColoredTexture, randomArray, randomInt, Vector2} from 'pixi-extended';
+import {PowerUp, PowerUpType} from '../data/PowerUp';
 import {game} from '../index';
 import {isOnScreen} from '../utils';
 import {BulletMovementType, BulletTarget} from './Bullet';
@@ -25,17 +26,6 @@ export class Enemy extends ShooterSprite {
 		this.bulletCooldown = randomInt(150, 400);
 	}
 
-	public hit() {
-		this.health--;
-
-		if (this.health <= 0) {
-			this.destroy();
-			this.bullets.forEach(b => b.destroy());
-			this.bullets = [];
-			game.enemies.splice(game.enemies.indexOf(this), 1);
-		}
-	}
-
 	public update() {
 		if (this.destroyed) return;
 
@@ -58,7 +48,7 @@ export class Enemy extends ShooterSprite {
 
 			if (b.hitBox.collidesWith(game.player.hitBox)) {
 				this.removeBullet(b);
-				console.log('player hit');
+				game.player.hit();
 				return;
 			}
 			b.update();
@@ -66,5 +56,23 @@ export class Enemy extends ShooterSprite {
 
 		this.position.add(this.velocity);
 		this.velocity.reset();
+	}
+
+	public hit(damage: number = 1) {
+		this.health -= damage;
+
+		if (this.health <= 0) {
+			this.destroy();
+			this.bullets.forEach(b => b.destroy());
+			this.bullets = [];
+			game.enemies.splice(game.enemies.indexOf(this), 1);
+
+			if (Math.random() < 1 / 20) {
+				game.player.powerUps.push(new PowerUp({
+					value: 1,
+					type: randomArray(Object.keys(PowerUpType).map(n => parseInt(n)).filter(n => !isNaN(n)))
+				}))
+			}
+		}
 	}
 }
