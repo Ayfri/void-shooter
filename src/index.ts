@@ -24,6 +24,7 @@ async function setup() {
 	await loadTextures({
 		player: './assets/sprites/player.png',
 		bullet1: './assets/sprites/bullet1.png',
+		bullet2: './assets/sprites/bullet2.png',
 	});
 
 	game = new Game(app);

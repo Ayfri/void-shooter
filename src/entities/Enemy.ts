@@ -35,6 +35,8 @@ export class Enemy extends ShooterSprite {
 				initialSpeed: 9,
 				movementType: BulletMovementType.BASIC,
 				target: BulletTarget.PLAYER,
+				size: 1.5,
+				sprite: 'bullet2'
 			});
 		}
 

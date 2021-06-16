@@ -16,6 +16,7 @@ export interface BulletOptions {
 	initialSpeed: number;
 	movementType: BulletMovementType;
 	target: BulletTarget;
+	sprite?: string;
 }
 
 export class Bullet extends Sprite {
@@ -25,7 +26,7 @@ export class Bullet extends Sprite {
 	private readonly movementType: BulletMovementType;
 
 	public constructor(options: BulletOptions) {
-		super('bullet1');
+		super(options.sprite ?? 'bullet1');
 
 		this.movementType = options.movementType;
 		this.damage = options.damage ?? 1;
