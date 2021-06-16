@@ -150,11 +150,7 @@ export class Player extends ShooterSprite {
 		console.log('player hit');
 	}
 
-	public addPowerUp(value: number, type: PowerUpType | 'random') {
-		if (type === 'random') {
-			type = randomArray(Object.keys(PowerUpType).map(p => parseInt(p)).filter(n => !isNaN(n)));
-		}
-
+	public addPowerUp(value: number, type: PowerUpType ) {
 		if (type === PowerUpType.BULLET_COUNT && this.fullBulletCount === this.bulletCountMax) return;
 		if (type === PowerUpType.BULLET_SPEED && this.fullBulletSpeed === this.bulletSpeedMax) return;
 		if (type === PowerUpType.BULLET_DAMAGE && this.fullBulletDamage === this.bulletDamageMax) return;

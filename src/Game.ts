@@ -2,6 +2,7 @@ import {Color, EventEmitter, FPSCounter, isPressed, PIXI, randomFloat, randomInt
 import {PowerUpType} from './data/PowerUp';
 import {Enemy} from './entities/Enemy';
 import {Player} from './entities/Player';
+import {PowerUpSprite} from './entities/PowerUpSprite';
 import {keys} from './index';
 
 export type GameEvents = {
@@ -13,6 +14,7 @@ export class Game extends EventEmitter<GameEvents> {
 	public player: Player;
 	public enemies: Enemy[] = [];
 	public debug: Text;
+	public powerUps: PowerUpSprite[] = [];
 
 	public constructor(public readonly app: PIXI.Application) {
 		super();
@@ -43,6 +45,7 @@ export class Game extends EventEmitter<GameEvents> {
 
 	public update() {
 		this.player.update();
+		this.powerUps.forEach(p => p.update());
 		this.app.stage.sortChildren();
 		this.debug.text =
 			`

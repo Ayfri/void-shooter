@@ -25,6 +25,11 @@ async function setup() {
 		player: './assets/sprites/player.png',
 		bullet1: './assets/sprites/bullet1.png',
 		bullet2: './assets/sprites/bullet2.png',
+		attack_powerup: './assets/sprites/attack_powerup.png',
+		bullet_add_powerup: './assets/sprites/bullet_add_powerup.png',
+		bullet_speed_powerup: './assets/sprites/bullet_speed_powerup.png',
+		health_powerup: './assets/sprites/health_powerup.png',
+		speed_powerup: './assets/sprites/speed_powerup.png',
 	});
 
 	game = new Game(app);
