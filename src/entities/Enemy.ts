@@ -67,14 +67,8 @@ export class Enemy extends ShooterSprite {
 			this.bullets = [];
 			game.enemies.splice(game.enemies.indexOf(this), 1);
 
-			if (Math.random() < 1 / 5) {
-				const powerUp: PowerUp = new PowerUp({
-					value: 1,
-					type: randomArray(Object.keys(PowerUpType).map(n => parseInt(n)).filter(n => !isNaN(n))),
-				});
-				game.player.powerUps.push(powerUp);
-
-				console.log(`powerUp : ${PowerUpType[powerUp.type]}`)
+			if (Math.random() < 1 / 10) {
+				game.player.addPowerUp(1, 'random');
 			}
 		}
 	}

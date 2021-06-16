@@ -1,4 +1,4 @@
-import {isPressed} from 'pixi-extended';
+import {isPressed, randomArray} from 'pixi-extended';
 import {PowerUp, PowerUpType, PowerUpValueType} from '../data/PowerUp';
 import {game, keys} from '../index';
 import {isOnScreen} from '../utils';
@@ -6,8 +6,8 @@ import {BulletMovementType, BulletTarget} from './Bullet';
 import {ShooterSprite} from './ShooterSprite';
 
 export class Player extends ShooterSprite {
+	public bulletCountMax: number;
 	public bulletDamageMax: number = 10;
-	public bulletNumberMax: number;
 	public bulletSpeedMax: number;
 	public powerUps: PowerUp[] = [];
 	public speedMax: number;
@@ -21,7 +21,7 @@ export class Player extends ShooterSprite {
 		super('player');
 
 		this.bulletSpeedMax = 20;
-		this.bulletNumberMax = 10;
+		this.bulletCountMax = 10;
 		this.speedMax = 8;
 		this._bulletCount = 1;
 		this._bulletSpeed = 8;
@@ -32,24 +32,24 @@ export class Player extends ShooterSprite {
 		this.position.xy = [window.innerWidth / 2, window.innerHeight - window.innerHeight / 5];
 	}
 
+	public get bulletCount(): number {
+		return this._bulletCount;
+	}
+
+	public set bulletCount(value: number) {
+		this._bulletCount = value + this.getValueForPowerUp(PowerUpType.BULLET_COUNT) > this.bulletCountMax
+		                    ? this.bulletCountMax
+		                    : value;
+	}
+
 	public get bulletDamage(): number {
 		return this._bulletDamage;
 	}
 
 	public set bulletDamage(value: number) {
 		this._bulletDamage = value + this.getValueForPowerUp(PowerUpType.BULLET_DAMAGE) > this.bulletDamageMax
-		                      ? this.bulletDamageMax
-		                      : value;
-	}
-
-	public get bulletCount(): number {
-		return this._bulletCount;
-	}
-
-	public set bulletCount(value: number) {
-		this._bulletCount = value + this.getValueForPowerUp(PowerUpType.BULLET_COUNT) > this.bulletNumberMax
-		                      ? this.bulletNumberMax
-		                      : value;
+		                     ? this.bulletDamageMax
+		                     : value;
 	}
 
 	public get bulletSpeed(): number {
@@ -58,16 +58,16 @@ export class Player extends ShooterSprite {
 
 	public set bulletSpeed(value: number) {
 		this._bulletSpeed = value + this.getValueForPowerUp(PowerUpType.BULLET_SPEED) > this.bulletSpeedMax
-		                     ? this.bulletSpeedMax
-		                     : value;
-	}
-
-	public get fullBulletDamage(): number {
-		return this._bulletDamage + this.getValueForPowerUp(PowerUpType.BULLET_DAMAGE);
+		                    ? this.bulletSpeedMax
+		                    : value;
 	}
 
 	public get fullBulletCount(): number {
 		return this._bulletCount + this.getValueForPowerUp(PowerUpType.BULLET_COUNT);
+	}
+
+	public get fullBulletDamage(): number {
+		return this._bulletDamage + this.getValueForPowerUp(PowerUpType.BULLET_DAMAGE);
 	}
 
 	public get fullBulletSpeed(): number {
@@ -148,6 +148,24 @@ export class Player extends ShooterSprite {
 	public hit() {
 		this.health--;
 		console.log('player hit');
+	}
+
+	public addPowerUp(value: number, type: PowerUpType | 'random') {
+		if (type === 'random') {
+			type = randomArray(Object.keys(PowerUpType).map(parseInt).filter(n => !isNaN(n)));
+		}
+
+		if (type === PowerUpType.BULLET_COUNT && this.fullBulletCount === this.bulletCountMax) return;
+		if (type === PowerUpType.BULLET_SPEED && this.fullBulletSpeed === this.bulletSpeedMax) return;
+		if (type === PowerUpType.BULLET_DAMAGE && this.fullBulletDamage === this.bulletDamageMax) return;
+		if (type === PowerUpType.SPEED && this.fullSpeed === this.speedMax) return;
+
+		this.powerUps.push(new PowerUp({
+			value,
+			type,
+		}));
+
+		console.log(`powerUp : ${PowerUpType[type]}`);
 	}
 
 	public getValueForPowerUp(type: PowerUpType) {
