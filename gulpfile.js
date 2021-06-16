@@ -26,7 +26,7 @@ function watch() {
 	exec('reload -b --dir=dist --port=5000', (err) => {
 		if (err) throw err;
 	});
-	return gulp.watch('src/**/*.ts', gulp.series(bundle, copyPublic));
+	return gulp.watch(['src/**/*.ts', 'public/**/*'], gulp.series(bundle, copyPublic));
 }
 
 exports.bundle = gulp.series(bundle, copyPublic);
