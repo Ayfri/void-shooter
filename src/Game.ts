@@ -52,12 +52,14 @@ Speed : ${this.player.fullSpeed}
 Bullet damage : ${this.player.fullBulletDamage}
 Bullet count : ${this.player.fullBulletCount}
 Bullet speed : ${this.player.fullBulletSpeed}
+
+Max Enemy Health : ${Math.max(...this.enemies.map(e => e.health), 0)}
 `;
 		this.enemies.forEach(e => e.update());
 
 		if (isPressed(keys.spawnEnemy)) {
 			const enemy = new Enemy({
-				health: randomInt(5, 12),
+				health: randomInt(-10, 10) + this.player.fullBulletDamage * 3 + this.player.fullBulletCount * 5 + this.player.fullHealth,
 				position: new Vector2(randomInt(0, window.innerWidth), randomFloat(10, window.innerWidth / 5)),
 			});
 

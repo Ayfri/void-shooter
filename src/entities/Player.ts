@@ -152,7 +152,7 @@ export class Player extends ShooterSprite {
 
 	public addPowerUp(value: number, type: PowerUpType | 'random') {
 		if (type === 'random') {
-			type = randomArray(Object.keys(PowerUpType).map(parseInt).filter(n => !isNaN(n)));
+			type = randomArray(Object.keys(PowerUpType).map(p => parseInt(p)).filter(n => !isNaN(n)));
 		}
 
 		if (type === PowerUpType.BULLET_COUNT && this.fullBulletCount === this.bulletCountMax) return;
