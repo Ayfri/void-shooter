@@ -7,7 +7,7 @@ export interface ShootOptions extends BulletOptions {
 }
 
 export abstract class ShooterSprite extends Sprite {
-	public speed = 8;
+	public abstract speed: number;
 	public velocity = Vector2.zero;
 	public bullets: Bullet[] = [];
 	public bulletCooldown = 10;

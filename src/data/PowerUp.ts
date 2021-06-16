@@ -1,5 +1,5 @@
 export enum PowerUpType {
-	BULLET_NUMBER,
+	BULLET_COUNT,
 	BULLET_SPEED,
 	BULLET_DAMAGE,
 	HEALTH,

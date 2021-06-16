@@ -5,44 +5,103 @@ import {isOnScreen} from '../utils';
 import {BulletMovementType, BulletTarget} from './Bullet';
 import {ShooterSprite} from './ShooterSprite';
 
-
 export class Player extends ShooterSprite {
+	public bulletDamageMax: number = 10;
+	public bulletNumberMax: number;
+	public bulletSpeedMax: number;
 	public powerUps: PowerUp[] = [];
+	public speedMax: number;
+	private _bulletDamage: number;
+	private _bulletCount: number;
+	private _bulletSpeed: number;
+	private _health: number;
+	private _speed: number;
 
 	public constructor() {
 		super('player');
 
+		this.bulletSpeedMax = 20;
+		this.bulletNumberMax = 10;
+		this.speedMax = 8;
+		this._bulletCount = 1;
+		this._bulletSpeed = 8;
+		this._bulletDamage = 1;
+		this._speed = 8;
 		this._health = 10;
 		this.anchor.set(0.5, 0.5);
 		this.position.xy = [window.innerWidth / 2, window.innerHeight - window.innerHeight / 5];
 	}
 
-	private _health: number;
+	public get bulletDamage(): number {
+		return this._bulletDamage;
+	}
 
-	public get health(): number {
+	public set bulletDamage(value: number) {
+		this._bulletDamage = value + this.getValueForPowerUp(PowerUpType.BULLET_DAMAGE) > this.bulletDamageMax
+		                      ? this.bulletDamageMax
+		                      : value;
+	}
+
+	public get bulletCount(): number {
+		return this._bulletCount;
+	}
+
+	public set bulletCount(value: number) {
+		this._bulletCount = value + this.getValueForPowerUp(PowerUpType.BULLET_COUNT) > this.bulletNumberMax
+		                      ? this.bulletNumberMax
+		                      : value;
+	}
+
+	public get bulletSpeed(): number {
+		return this._bulletSpeed;
+	}
+
+	public set bulletSpeed(value: number) {
+		this._bulletSpeed = value + this.getValueForPowerUp(PowerUpType.BULLET_SPEED) > this.bulletSpeedMax
+		                     ? this.bulletSpeedMax
+		                     : value;
+	}
+
+	public get fullBulletDamage(): number {
+		return this._bulletDamage + this.getValueForPowerUp(PowerUpType.BULLET_DAMAGE);
+	}
+
+	public get fullBulletCount(): number {
+		return this._bulletCount + this.getValueForPowerUp(PowerUpType.BULLET_COUNT);
+	}
+
+	public get fullBulletSpeed(): number {
+		return this._bulletSpeed + this.getValueForPowerUp(PowerUpType.BULLET_SPEED);
+	}
+
+	public get fullHealth(): number {
 		return this._health + this.getValueForPowerUp(PowerUpType.HEALTH);
 	}
 
+	public get fullSpeed(): number {
+		return this._speed + this.getValueForPowerUp(PowerUpType.SPEED);
+	}
+
+	public get health(): number {
+		return this._health;
+	}
+
 	public set health(value: number) {
-		const health: number = value + this.getValueForPowerUp(PowerUpType.HEALTH);
-		this._health = health >= 0 ? health : 0;
+		this._health = value + this.getValueForPowerUp(PowerUpType.HEALTH) >= 0 ? value : 0;
 	}
 
-	public get bulletDamage(): number {
-		return 1 + this.getValueForPowerUp(PowerUpType.BULLET_DAMAGE);
+	public get speed(): number {
+		return this._speed;
 	}
 
-	public getValueForPowerUp(type: PowerUpType) {
-		const powerUps = this.powerUps.filter(p => p.type === type);
-		return powerUps.reduce((previous, current) => {
-			return current.valueType === PowerUpValueType.ADD ? previous + current.value : previous * current.value;
-		}, 0);
+	public set speed(value: number) {
+		this._speed = value + this.getValueForPowerUp(PowerUpType.SPEED) > this.speedMax ? this.speedMax : value;
 	}
 
 	public update() {
 		if (this.destroyed) return;
 
-		const speed: number = this.speed + this.getValueForPowerUp(PowerUpType.SPEED);
+		const speed = this.fullSpeed;
 		if (isPressed(keys.up)) this.velocity.y = -speed;
 		if (isPressed(keys.down)) this.velocity.y = speed;
 		if (isPressed(keys.left)) this.velocity.x = -speed;
@@ -51,10 +110,10 @@ export class Player extends ShooterSprite {
 		if (isPressed(keys.space) && this.bulletCooldownTimer <= 0) {
 
 			this.shoot({
-				damage: 1 + this.getValueForPowerUp(PowerUpType.BULLET_DAMAGE),
-				initialSpeed: 12 + this.getValueForPowerUp(PowerUpType.BULLET_SPEED),
+				damage: this.fullBulletDamage,
+				initialSpeed: this.fullBulletSpeed,
 				movementType: BulletMovementType.BASIC,
-				number: 1 + this.getValueForPowerUp(PowerUpType.BULLET_NUMBER),
+				number: this.fullBulletCount,
 				target: BulletTarget.ENEMY,
 			});
 			this.bulletCooldownTimer = this.bulletCooldown;
@@ -89,6 +148,13 @@ export class Player extends ShooterSprite {
 	public hit() {
 		this.health--;
 		console.log('player hit');
+	}
+
+	public getValueForPowerUp(type: PowerUpType) {
+		const powerUps = this.powerUps.filter(p => p.type === type);
+		return powerUps.reduce((previous, current) => {
+			return current.valueType === PowerUpValueType.ADD ? previous + current.value : previous * current.value;
+		}, 0);
 	}
 
 	private checkMovement(): void {

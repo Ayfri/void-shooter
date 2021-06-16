@@ -47,11 +47,11 @@ export class Game extends EventEmitter<GameEvents> {
 		this.debug.text =
 			`
 ${this.app.stage.children.length.toString()}
-Health : ${this.player.health}
-Speed : ${this.player.speed + this.player.getValueForPowerUp(PowerUpType.SPEED)}
-Bullet damage : ${this.player.bulletDamage}
-Bullet count : ${1 + this.player.getValueForPowerUp(PowerUpType.BULLET_NUMBER)}
-Bullet speed : ${8 + this.player.getValueForPowerUp(PowerUpType.BULLET_SPEED)}
+Health : ${this.player.fullHealth}
+Speed : ${this.player.fullSpeed}
+Bullet damage : ${this.player.fullBulletDamage}
+Bullet count : ${this.player.fullBulletCount}
+Bullet speed : ${this.player.fullBulletSpeed}
 `;
 		this.enemies.forEach(e => e.update());
 
