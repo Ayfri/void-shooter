@@ -32,7 +32,7 @@ export class Bullet extends Sprite {
 		this.damage = options.damage ?? 1;
 		this.speed = options.initialSpeed;
 		this.target = options.target;
-		this.anchor.set(0.5, 0.5);
+		this.anchor.set(0.5);
 	}
 
 	public update() {

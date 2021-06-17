@@ -23,18 +23,7 @@ export class Enemy extends ShooterSprite {
 			this.bullets = [];
 			game.enemies.splice(game.enemies.indexOf(this), 1);
 
-			if (Math.random() < 1 / 2) {
-				const powerUp = new PowerUpSprite(
-					new PowerUp({
-						value: 1,
-						type: randomArray(Object.keys(PowerUpType).map(p => parseInt(p)).filter(n => !isNaN(n))),
-					}),
-				);
-				powerUp.position.copyFrom(this.position);
-				powerUp.scale.set(2);
-
-				game.powerUps.push(powerUp);
-			}
+			if (Math.random() < 1 / 20) this.spawnPowerUp();
 
 			this.destroy();
 		}
@@ -80,10 +69,23 @@ export class Enemy extends ShooterSprite {
 			height: 75,
 			width: 50,
 		}));
-		this.anchor.set(0.5, 0.5);
+		this.anchor.set(0.5);
 
 		this.health = options.health;
 		this.position.copyFrom(options.position);
 		this.bulletCooldown = randomInt(150, 400);
+	}
+
+	public spawnPowerUp(): void {
+		const powerUp = new PowerUpSprite(
+			new PowerUp({
+				value: 1,
+				type: randomArray(Object.keys(PowerUpType).map(p => parseInt(p)).filter(n => !isNaN(n))),
+			}),
+		);
+		powerUp.position.copyFrom(this.position);
+		powerUp.scale.set(2);
+
+		game.powerUps.push(powerUp);
 	}
 }

@@ -28,7 +28,7 @@ export class Player extends ShooterSprite {
 		this._bulletDamage = 1;
 		this._speed = 8;
 		this._health = 10;
-		this.anchor.set(0.5, 0.5);
+		this.anchor.set(0.5);
 		this.position.xy = [window.innerWidth / 2, window.innerHeight - window.innerHeight / 5];
 	}
 
