@@ -1,6 +1,6 @@
 {
 	"dependencies": {
-		"pixi-extended": "^0.2.1"
+		"pixi-extended": "^0.4.1"
 	},
 	"devDependencies": {
 		"@types/node": "^15.12.1",
